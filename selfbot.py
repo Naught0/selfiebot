@@ -13,7 +13,7 @@ bot.aio_session = aiohttp.ClientSession
 
 # Create connection to postgresql server using pools
 async def create_db_pool():
-    with open('data/apikeys.json') as f:
+    with open('apikeys.json') as f:
         pg_pw = json.load(f)['postgres']
     bot.pg_con = await asyncpg.create_pool(user='james', password=pg_pw, database='discord_testing')
 bot.loop.run_until_complete(create_db_pool())
