@@ -1,6 +1,7 @@
 import discord
 import asyncpg
 import aiohttp
+import json
 from datetime import datetime
 from discord.ext import commands
 
@@ -21,4 +22,8 @@ bot.loop.run_until_complete(create_db_pool())
 async def on_ready():
 	print(f'Client logged in at {datetime.now()}')
 
-bot.run("mfa.Kd6-eyiOy4gD8cXDpT1m-1t7wE69Vx-cavTm3KX5yKZSfFlP_6txvZaE6ql4Nuw3xQnGaR3m_uP6_S4oh5Y2", bot=False)
+# Get user token
+with open('~/qtbot/data/apikeys.json') as f:
+	token = json.load(f)['selfbot']
+
+bot.run(token, bot=False)
