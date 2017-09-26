@@ -1,6 +1,7 @@
 #!/bin/env python3
 import discord
 import asyncio
+import eval_utils
 from discord.ext import commands
 
 class Eval:
@@ -11,8 +12,11 @@ class Eval:
     @commands.command(name='eval', hidden=True)
     async def shell_access(self, ctx, *, cmd):
         """ Lets me access the VPS command line via the bot """
+        cmd = eval_utils.cleanup_code(cmd)
+
         process = await asyncio.create_subprocess_shell(cmd, stdout=asyncio.subprocess.PIPE)
         stdout, stderr = await process.communicate()
+
         try:
             if stdout:
                 await ctx.send(f'`{cmd}`\n```{stdout.decode().strip()}```')
@@ -27,6 +31,8 @@ class Eval:
     @commands.group(invoke_without_command=True, name='sql', hidden=True)
     async def sql_execute(self, ctx, *, query):
         """ Lets me access the postgres database via discord """
+        query = eval_utils.cleanup_code(query)
+
         try:
             res = await self.pg_con.execute(query)
         except Exception as e:
@@ -39,6 +45,8 @@ class Eval:
 
     @sql_execute.command(name='fetch')
     async def sql_fetch(self, ctx, *, query):
+        query = eval_utils.cleanup_code(query)
+
         try:
             res = await self.pg_con.fetch(query)
         except Exception as e:
