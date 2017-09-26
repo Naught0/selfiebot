@@ -20,25 +20,19 @@ bot.loop.run_until_complete(create_db_pool())
 
 @bot.event
 async def on_ready():
-	print(f'Client logged in at {datetime.now()}')
-
-@commands.command(name='eval', hidden=True)
-async def shell_access(self, ctx, *, cmd):
-    """ Lets me access the VPS command line via the bot """
-    process = await asyncio.create_subprocess_shell(cmd, stdout=asyncio.subprocess.PIPE)
-    stdout, stderr = await process.communicate()
-    try:
-        if stdout:
-            await ctx.send(f'`{cmd}`\n```{stdout.decode().strip()}```\n```{stderr.decode().strip()}')
-        else:
-            await ctx.send(f'`{cmd}` produced no output')
-
-    except Exception as e:
-        await ctx.send(f'Unable to send output\n```py\n{e}```')
-
+    print(f'Client logged in at {datetime.now()}')
 
 # Get user token
 with open('apikeys.json') as f:
-	token = json.load(f)['selfbot']
+    token = json.load(f)['selfbot']
 
-bot.run(token, bot=False)
+bot.default_ext = ('eval',)
+
+if __name__ == "__main__":
+    for ext in default_ext:
+        try:
+            bot.load_extension(ext)
+        except Exception as e:
+            print(f'Failed to load extension {ext}\n{e}')
+
+    bot.run(token, bot=False)
