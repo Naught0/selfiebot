@@ -29,7 +29,7 @@ with open('apikeys.json') as f:
 bot.default_ext = ('eval',)
 
 if __name__ == "__main__":
-    for ext in default_ext:
+    for ext in bot.default_ext:
         try:
             bot.load_extension(ext)
         except Exception as e:
