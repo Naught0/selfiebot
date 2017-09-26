@@ -19,9 +19,9 @@ class Eval:
 
         try:
             if stdout:
-                await ctx.send(f'`{cmd}`\n```{stdout.decode().strip()}```')
+                await ctx.send(f'```{stdout.decode().strip()}```')
             elif stderr:
-                await ctx.send(f'`{cmd}`\n```{stderr.decode().strip()}```')
+                await ctx.send(f'```{stderr.decode().strip()}```')
             else:
                 await ctx.send(f'`{cmd}` produced no output')
 
