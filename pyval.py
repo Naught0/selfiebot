@@ -64,10 +64,6 @@ class Admin:
             await ctx.send(f'```py\n{value}{traceback.format_exc()}\n```')
         else:
             value = stdout.getvalue()
-            try:
-                await ctx.message.add_reaction('\u2705')
-            except:
-                pass
 
             if ret is None:
                 if value:
