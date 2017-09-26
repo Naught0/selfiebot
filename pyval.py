@@ -34,7 +34,6 @@ class Admin:
         return f'```py\n{e.text}{"^":>{e.offset}}\n{e.__class__.__name__}: {e}```'
 
     @commands.command(pass_context=True, hidden=True, name='pyval')
-    @commands.is_owner()
     async def _eval(self, ctx, *, body: str):
         """Evaluates a code"""
 
