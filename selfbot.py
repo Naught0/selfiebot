@@ -23,7 +23,7 @@ async def on_ready():
 	print(f'Client logged in at {datetime.now()}')
 
 # Get user token
-with open('root/qtbot/data/apikeys.json') as f:
+with open('apikeys.json') as f:
 	token = json.load(f)['selfbot']
 
 bot.run(token, bot=False)
