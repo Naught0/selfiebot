@@ -32,7 +32,7 @@ class Admin:
 
         env.update(globals())
 
-        body = self.cleanup_code(body)
+        body = eval_utils.cleanup_code(body)
         stdout = io.StringIO()
 
         to_compile = f'async def func():\n{textwrap.indent(body, "  ")}'
