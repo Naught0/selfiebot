@@ -11,13 +11,13 @@ class Cleanup:
     @commands.command(name='clean', aliases=['purge'])
     async def _clean(self, ctx, num_msg: int):
     # Check so that only my msgs are removed
-    def check(message):
-        return message.author.id == self.bot.user.id
+        def check(message):
+            return message.author.id == self.bot.user.id
 
-    try:
-        await ctx.channel.purge(check=check, limit=num_msg)
-    except Exception as e:
-        print(e)
+        try:
+            await ctx.channel.purge(check=check, limit=num_msg)
+        except Exception as e:
+            print(e)
 
 
 def setup(bot):
