@@ -8,9 +8,6 @@ from discord.ext import commands
 
 bot = commands.Bot(command_prefix="?>", self_bot=True)
 
-# For internet fun
-bot.aio_session = aiohttp.ClientSession
-
 # Create connection to postgresql server using pools
 async def create_db_pool():
     with open('apikeys.json') as f:
