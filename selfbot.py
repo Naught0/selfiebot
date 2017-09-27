@@ -26,7 +26,7 @@ async def on_ready():
 with open('apikeys.json') as f:
     token = json.load(f)['selfbot']
 
-bot.default_ext = ('eval','pyval')
+bot.default_ext = ('eval', 'pyval', 'cleanup',)
 
 if __name__ == "__main__":
     for ext in bot.default_ext:
