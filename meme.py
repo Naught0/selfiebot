@@ -13,7 +13,7 @@ class Aesthetic:
         ascii_to_wide = dict((i, chr(i + 0xfee0)) for i in range(0x21, 0x7f))
         ascii_to_wide.update({0x20: u'\u3000', 0x2D: u'\u2212'})
 
-        await ctx.message.edit(ctx.message, f'a_text.translate(ascii_to_wide)}')
+        await ctx.message.edit(content=f'{a_text.translate(ascii_to_wide)}')
 
 
 def setup(bot):
