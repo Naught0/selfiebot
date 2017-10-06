@@ -13,7 +13,7 @@ class SelfieBot(commands.Bot):
             self.api_keys = json.load(f)
 
         # Default exts
-        self.default_ext = ('eval', 'pyval', 'cleanup',)
+        self.default_ext = ('eval', 'pyval', 'cleanup', 'meme',)
 
         # Create connection to postgres DB
         self.loop.run_until_complete(self.create_db_pool())
