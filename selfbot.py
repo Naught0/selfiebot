@@ -20,7 +20,9 @@ class SelfieBot(commands.Bot):
 
     async def create_db_pool(self):
         # Create connection to postgresql server using pools
-        self.pg_con = await asyncpg.create_pool(user='james', password=self.api_keys['postgres'], database='discord_testing')
+        self.pg_con = await asyncpg.create_pool(user='james',
+                                                password=self.api_keys['postgres'],
+                                                database='discord_testing')
 
     def run(self):
         super().run(self.api_keys['selfbot'], bot=False)
