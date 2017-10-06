@@ -5,31 +5,33 @@ import json
 from datetime import datetime
 from discord.ext import commands
 
+class SelfieBot(commands.Bot):
+    def __init__(self):
+        super().__init__(command_prefix="?>", self_bot=True)
 
-bot = commands.Bot(command_prefix="?>", self_bot=True)
+        with open('apikeys.json') as f:
+            self.api_keys = json.load(f)
 
-# Create connection to postgresql server using pools
-async def create_db_pool():
-    with open('apikeys.json') as f:
-        pg_pw = json.load(f)['postgres']
-    bot.pg_con = await asyncpg.create_pool(user='james', password=pg_pw, database='discord_testing')
-bot.loop.run_until_complete(create_db_pool())
+        # Default exts
+        self.default_ext = ('eval', 'pyval', 'cleanup',)
 
-@bot.event
-async def on_ready():
-    print(f'Client logged in at {datetime.now()}')
+        # Create connection to postgres DB
+        self.loop.run_until_complete(self.create_db_pool())
 
-# Get user token
-with open('apikeys.json') as f:
-    token = json.load(f)['selfbot']
+    async def create_db_pool(self):
+        # Create connection to postgresql server using pools
+        self.pg_con = await asyncpg.create_pool(user='james', password=self.api_keys['postgres'], database='discord_testing')
 
-bot.default_ext = ('eval', 'pyval', 'cleanup',)
+    def run(self):
+        super().run(self.api_keys['selfbot'], bot=False)
 
-if __name__ == "__main__":
-    for ext in bot.default_ext:
-        try:
-            bot.load_extension(ext)
-        except Exception as e:
-            print(f'Failed to load extension {ext}\n{e}')
+    async def on_ready(self):
+        self.bot_start_time = datetime.now()
+        self.bot_start_time_str = self.bot_start_time.strftime('%B %d %H:%M:%S')
+        print(f'Client logged in at {self.bot_start_time}')
 
-    bot.run(token, bot=False)
+        for ext in self.default_ext:
+            try:
+                self.load_extension(ext)
+            except Exception as e:
+                print(f'Failed to load extension {ext}\n{e}')
